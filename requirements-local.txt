@@ -1,0 +1,15 @@
+# Dependențe pentru rulare locală FĂRĂ madmom (Python 3.11/3.12).
+# Backend-ul cade automat pe implementarea cu librosa pentru BPM/metrică.
+# Pentru madmom folosește Dockerfile-ul (Python 3.10).
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+pydantic==2.10.4
+pydantic-settings==2.7.1
+numpy==1.26.4
+scipy==1.13.1
+librosa==0.10.2.post1
+soundfile==0.12.1
+yt-dlp
+pytest==8.3.4
+httpx==0.28.1

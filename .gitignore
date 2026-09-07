@@ -1,20 +1,8 @@
-*.iml
-.gradle
-/local.properties
-.idea/
-.kotlin/
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
-*.apk
-*.aab
-
-# Python (backend) — also see backend/.gitignore
-**/__pycache__/
-**/.venv/
-**/.pytest_cache/
+.venv/
+__pycache__/
 *.pyc
 .env
+tests/fixtures/*.mp3
+tests/fixtures/*.wav
+tests/fixtures/*.flac
+.pytest_cache/
