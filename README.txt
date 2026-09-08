@@ -1,0 +1,15 @@
+Moozik este o aplicație pentru Android care analizează automat o piesă muzicală și extrage principalele ei caracteristici: tempo-ul (BPM), tonalitatea, metrica și structura — adică împărțirea în intro, strofă, refren, punte și outro. Toate aceste rezultate sunt obținute exclusiv prin procesare de semnal, matematic, direct din unda sonoră — fără inteligență artificială antrenată și fără nicio bază de date de piese. Aceeași piesă produce întotdeauna exact același rezultat.
+
+Aplicația este construită pe o arhitectură cu două componente decuplate. Partea de pe telefon, scrisă în Kotlin cu Jetpack Compose, se ocupă strict de interfață și de redarea audio. Analiza propriu-zisă rulează pe un server separat, scris în Python cu FastAPI, care folosește biblioteci consacrate de procesare audio (librosa, SciPy, scikit-learn) și este găzduit în cloud. Telefonul trimite fișierul printr-o cerere HTTP, iar serverul returnează un răspuns structurat în JSON. Serverul nu păstrează nimic — fiecare cerere este independentă, iar fișierul temporar este șters imediat după procesare.
+
+Din punct de vedere algoritmic, fiecare metrică folosește o metodă recunoscută în domeniu. BPM-ul este estimat din regularitatea atacurilor sonore, prin autocorelație pe curba de onset. Tonalitatea este determinată comparând cromagrama piesei cu profile statistice ale celor 24 de tonalități, folosind profilele Temperley, mai precise pe muzică reală decât metoda clasică Krumhansl-Schmuckler. Structura este cea mai complexă parte: se construiește un graf care măsoară similaritatea armonică și timbrală dintre orice două momente ale piesei, iar prin clustering spectral pe matricea Laplaciană (metoda McFee & Ellis) piesa este segmentată și fiecare secțiune primește o etichetă în funcție de poziție, repetiție și energie.
+
+Interfața pune rezultatele în patru carduri de metrici și, mai important, desenează forma de undă a piesei cu benzi colorate suprapuse peste fiecare secțiune — utilizatorul poate atinge refrenul și piesa sare direct acolo. Aplicația mai include un istoric local, care salvează ultimele analize și le poate redeschide instantaneu fără a mai contacta serverul, un ecran de comparație între două piese cu verdict de compatibilitate pentru mixaj, și posibilitatea de a exporta rezultatul complet ca fișier JSON.
+
+Testele confirmă acuratețea metodei pe muzică cu structură clară: pe „Perfect" de Ed Sheeran, aplicația a returnat 96 BPM (față de 95 valoarea de referință) și tonalitatea La bemol major, identificată exact.
+
+Limitările sunt asumate. Fără un model antrenat, precizia scade pe genuri complexe precum metal, jazz sau muzică experimentală, unde ritmul și armonia sunt mai puțin regulate. Detectarea structurii rămâne aproximativă atunci când strofa și refrenul folosesc aceeași progresie de acorduri, pentru că algoritmul le percepe ca fiind identice. Importul direct din YouTube a fost implementat inițial, dar a fost dezactivat pentru că platforma blochează activ extragerea audio de pe adrese IP de server; aplicația funcționează cu fișiere audio locale.
+
+
+
+Link apk: https://we.tl/t-2o9cKFKKJkxySNjy
